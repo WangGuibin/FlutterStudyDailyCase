@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 
@@ -9,14 +11,15 @@ import 'package:english_words/english_words.dart';
     return  new MaterialApp(
               title: '首页',
               theme: new ThemeData(
-                primaryColor: Colors.white,
+                primaryColor: Colors.orange,
               ),
               home: new RandomWords(),
      );
     }
   }
 
-class RandomWords extends StatefulWidget { //有状态的View
+class RandomWords extends StatefulWidget { 
+  //扩展+增加状态管理 
   @override
   createState() => new RandomWordsState();
 }
@@ -26,9 +29,22 @@ class RandomWordsState extends State<RandomWords> {
   Widget build(BuildContext context) {
     return new Scaffold ( //脚手架
       appBar: new AppBar( //导航栏
-        title: new Text('类似于iOS的tableView'), actions: <Widget>[ //添加跳转事件
+        title: new Text('类似于iOS的tableView'), 
+        actions: <Widget>[ //添加跳转事件
         new IconButton(icon: new Icon(Icons.list), onPressed: _pushSaved),
-      ], leading: new Icon(Icons.add),), body: _buildSuggestions(), //编译生成列表
+      ], 
+      leading: new IconButton(icon: new Icon(Icons.add),onPressed: _addAction,)), 
+      body: _buildSuggestions(), //编译生成列表
+      floatingActionButton: FloatingActionButton(
+        onPressed: _refreshAction,//点击回调方法名 
+        tooltip: 'Increment',//长按出提示
+        child: Icon(
+        Icons.refresh,//图标类型
+        color: Colors.white,//图标颜色
+        size: 40.0,//图标大小
+        semanticLabel: "这是一个按钮",//语义标签
+        textDirection: TextDirection.rtl,),//图标
+      ),
     );
   }
 
@@ -71,6 +87,16 @@ class RandomWordsState extends State<RandomWords> {
       });
     },);
   }
+
+//加号按钮回调
+void _addAction(){
+  log("click add button");
+}
+
+  //刷新按钮回调事件
+void _refreshAction(){
+  log("click refresh button");
+}
 
   //跳转页面: 收藏页面
   void _pushSaved() {
