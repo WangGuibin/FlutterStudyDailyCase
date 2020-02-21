@@ -504,5 +504,187 @@ Card(
 
 
 
+## 10.  导航相关
 
+#### 导航跳转/返回
+
+```dart
+import 'package:flutter/material.dart';
+ 
+void main() => runApp(MaterialApp(
+  title: "导航演示",
+  home: FirstScreen(),
+));
+
+class FirstScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("导航Demo")),
+        body: Center(
+          child: RaisedButton(
+            child: Text("跳转页面"),
+            onPressed: (){
+              Navigator.push(context,MaterialPageRoute(
+                builder: (context) => SecondScreen()
+              ));
+            },
+          ),
+        ),
+    );
+  }
+}
+
+class  SecondScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("页面2"),
+      ),
+      body: Center(
+        child: RaisedButton(
+          child: Text("返回上一个页面"),
+          onPressed: (){
+            Navigator.pop(context);
+          },
+        ),
+      ),
+    );
+  }
+}
+```
+
+#### 导航页面之间传值(正向传值)
+
+```dart
+import 'package:flutter/material.dart';
+ 
+//定义一个类
+class Product {
+  final String title;
+  final String desc;
+  Product(this.title,this.desc);
+}
+
+void main() => runApp(MaterialApp(
+  title: "导航演示",
+  home: ProductListPage(products:List.generate(100,(index)=>Product("商品$index","这是一个商品描述$index"))),
+));
+
+class ProductListPage extends StatelessWidget {
+  //定义一个接收参数的list
+  final List<Product> products; 
+  ProductListPage({Key key,@required this.products}) : super(key:key);
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("商品列表"),
+      ),
+      body: ListView.builder(
+        itemCount: products.length,
+        itemBuilder:(context,index){
+        return ListTile(
+          title: Text(products[index].title),
+          onTap: (){
+            Navigator.push(context,MaterialPageRoute(
+              builder: (context)=>ProductDetail(product: products[index])
+            ));
+          },
+        );
+       },
+      ),
+    );
+  }
+}
+
+ class ProductDetail extends StatelessWidget {
+   final Product product;
+   ProductDetail({Key key,@required this.product}):super(key:key);
+
+   @override
+   Widget build(BuildContext context) {
+     return Scaffold(
+       appBar: AppBar(title:Text('${product.title}')),
+       body: Center(child: Text('${product.desc}'),),
+     );
+   }
+ }
+```
+
+
+
+#### 导航页面反向传值(`pop`时回调传值)
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(MaterialApp(
+  title: "测试页面参数回调",
+  home: FirstPage(),
+));
+
+class FirstPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text("第一个页面"),
+        ),
+        body: Center(
+          child: RouteButton(),
+        ),
+      );
+  }
+}
+
+class RouteButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return RaisedButton(
+      child: Text("点击按钮"),
+      onPressed: (){
+        _getInfoResult(context);
+      },
+    );
+  }
+
+  //异步方法获得回调参数
+  _getInfoResult(BuildContext context) async {
+    //定义一个阻塞等待的结果 push的时候去监听 pop回来的时候参数会带回来 使用SnackBar(类似于提示消息HUD)展示
+    final result = await Navigator.push(context,
+    MaterialPageRoute(builder:(context)=>ResultCallBackPage()));
+    Scaffold.of(context).showSnackBar(SnackBar(content: Text('$result')));
+  }
+}
+
+class ResultCallBackPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("选择参数值页面"),),
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            RaisedButton(child: Text("参数1: 666666"),onPressed: (){
+              Navigator.pop(context,"我是参数一 {first : 666666}");//第二个参数即为回传参数
+            }),
+            RaisedButton(child: Text("参数2: 88888888"),onPressed: (){
+              Navigator.pop(context,"我是参数二 {second : 88888888}");//第二个参数即为回传参数
+            }),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+```
+
+
+
+ 
 
