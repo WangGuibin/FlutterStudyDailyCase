@@ -1,6 +1,8 @@
+[TOC]
+
 ## 1. `TextWidget`的使用
 
-```flutter
+```dart
 Text('牛逼了老铁!!!牛逼了老铁!!!牛逼了老铁!!!牛逼了老铁!!!牛逼了老铁!!!牛逼了老铁!!!牛逼了老铁!!!牛逼了老铁!!!牛逼了老铁!!!牛逼了老铁!!!牛逼了老铁!!!牛逼了老铁!!!牛逼了老铁!!!牛逼了老铁!!!牛逼了老铁!!!牛逼了老铁!!!',
           textAlign: TextAlign.left,
           maxLines: 3,
@@ -17,7 +19,7 @@ Text('牛逼了老铁!!!牛逼了老铁!!!牛逼了老铁!!!牛逼了老铁!!!�
 
 ## 2. `Container`容器组件的使用
 
-```flutter
+```dart
  Container(
             child: Text(
               "老铁牛了逼了厉害了!!!老铁牛了逼了厉害了!!!老铁牛了逼了厉害了!!!",
@@ -55,7 +57,7 @@ Text('牛逼了老铁!!!牛逼了老铁!!!牛逼了老铁!!!牛逼了老铁!!!�
 ## 3. `ImageWidget`的使用
 #### 网络图片加载
 
-```flutter
+```dart
 Container(
             child:Image.network(
               'https://img.mukewang.com/5de0b94d0982077300000000.jpg',
@@ -69,7 +71,7 @@ Container(
           )
 ```
 #### 滤镜渲染相关
-```flutter
+```dart
 Container(
             child:Image.network(
               'https://img.mukewang.com/5de0b94d0982077300000000.jpg',
@@ -81,9 +83,9 @@ Container(
             height: 300.0,
             color: Colors.greenAccent,
           )
-``` 
+```
 #### 图片平铺充满容器
-```flutter
+```dart
 Container(
             child:Image.network(
               'https://img.mukewang.com/5de0b94d0982077300000000.jpg',
@@ -98,7 +100,7 @@ Container(
 
 ## 4. `ListViewWidget`列表组件
 #### 图片列表
-```flutter
+```dart
 Scaffold(
         appBar: AppBar(
           title: new Text("列表组件学习")
@@ -117,7 +119,7 @@ Scaffold(
       )
 ```
 #### 混合cell实例
-```flutter
+```dart
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -175,7 +177,7 @@ class MyApp extends StatelessWidget{
 
 ```
 #### 横向滚动列表并且自定义组件分离嵌套代码
-```flutter
+```dart
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -229,7 +231,7 @@ class MyList extends StatelessWidget {
 }
 ```
 #### 动态列表的写法示例
-```flutter
+```dart
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp(
@@ -266,7 +268,7 @@ class MyApp extends StatelessWidget{
 ## 5. `GridWidget`网格布局组件
 
 #### `GridView`简单写法
-```flutter
+```dart
 import 'package:flutter/material.dart';
  
 void main() => runApp(MyApp());
@@ -301,7 +303,7 @@ class MyApp extends StatelessWidget {
 
 ```
 #### `GridView`另一种写法并加入图片
-```flutter
+```dart
 import 'package:flutter/material.dart';
  
 void main() => runApp(MyApp());
@@ -349,5 +351,158 @@ class MyApp extends StatelessWidget {
   }
 }
 ```
+
+## 6. `RowWidget`的使用
+
+```dart
+//一般与容器组件结合使用
+Row(
+            children: <Widget>[
+              //Expanded是撑开布局的一层包装
+              Expanded(child:Icon(Icons.headset,color: Colors.greenAccent)),
+              Expanded(child:Text("酷狗🎵",style: TextStyle(backgroundColor: Colors.lightBlue))),
+              Expanded(child:Text("我爱❤️我家",style: TextStyle(backgroundColor: Colors.deepOrange)))
+            ],
+            mainAxisSize: MainAxisSize.min, //主轴的size
+            crossAxisAlignment: CrossAxisAlignment.center,//交叉轴对齐方式
+            mainAxisAlignment: MainAxisAlignment.center,//主轴轴对齐方式
+          )
+```
+
+
+
+## 7. `ColumnWidget`的使用
+
+```dart
+//使用方法与Row类似
+Column(
+            children: <Widget>[
+              Text("我爱❤️我家",style: TextStyle(backgroundColor: Colors.deepOrange)),
+              Expanded(child:Icon(Icons.headset,color: Colors.greenAccent)),
+              Text("酷狗🎵",style: TextStyle(backgroundColor: Colors.lightBlue))
+            ],
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+          )
+```
+
+
+
+## 8. `StackWidget` 堆叠/栈视图的使用
+
+```dart
+import 'dart:ffi';
+import 'package:flutter/material.dart';
+ 
+void main() => runApp(TestApp());
+
+class TestApp extends StatelessWidget {
+  var stack = new Stack(
+    alignment: const FractionalOffset(0.5,0.8),
+    children: <Widget>[
+      new CircleAvatar(
+        backgroundImage: new NetworkImage('https://i0.hdslb.com/bfs/face/28dca5ff98f6c688b2b244ba5bf5f6208cf78ac2.jpg@150w_150h.jpg'),
+        radius: 100.0
+      ),
+      Container(
+        decoration: BoxDecoration(
+          color: Colors.orangeAccent
+        ),
+        child: Text('CoderWGB工作室'),
+        padding: const EdgeInsets.all(5.0)
+      )
+    ],
+  );
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: "测试一下",
+      theme: ThemeData(primaryColor: Colors.orangeAccent),
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("真香警告⚠️"),
+          // backgroundColor: Colors.cyanAccent,
+        ),
+        body: Center(
+          child: stack
+        ),
+      ),
+    );
+  }
+}
+
+```
+
+#### `Positioned`的使用
+
+```dart
+//一般超过三个子组件的时候使用 替代`alignment`的定位 
+Stack(
+    children: <Widget>[
+      new CircleAvatar(
+        // backgroundColor: Colors.orangeAccent,
+        backgroundImage: new NetworkImage('https://i0.hdslb.com/bfs/face/28dca5ff98f6c688b2b244ba5bf5f6208cf78ac2.jpg@150w_150h.jpg'),
+        radius: 100.0
+      ),
+      Positioned(
+        top: 10.0,
+        left: 10.0,
+        child: Text('左上角'),
+      ),
+      Positioned(
+        top: 10.0,
+        right: 10.0,
+        child: Text('右上角'),
+      ),
+      Positioned(
+        bottom: 10.0,
+        left: 10.0,
+        child: Text('左下角'),
+      ),
+      Positioned(
+        bottom: 10.0,
+        right: 10.0, 
+        child: Text('右下角'),
+      ),
+    ],
+  )
+```
+
+
+
+## 9. `CardWidget`卡片布局
+
+```dart
+Card(
+      child: Column(
+        children: <Widget>[
+          ListTile(
+            title: Text("中国加油!武汉加油💪!",style: TextStyle(fontWeight: FontWeight.w500)),
+            subtitle: Text("电话: 0797-28780XX"),
+            leading: Icon(Icons.phone_android),
+            trailing: Icon(Icons.keyboard_arrow_right),
+          ),
+          Divider(),
+          ListTile(
+            title: Text("中国加油!武汉加油💪!",style: TextStyle(fontWeight: FontWeight.w500)),
+            subtitle: Text("手机号: 13058086666"),
+            leading: Icon(Icons.phone),
+            trailing: Icon(Icons.keyboard_arrow_right),
+          ),
+          Divider(),
+          ListTile(
+            title: Text("中国加油!武汉加油💪!",style: TextStyle(fontWeight: FontWeight.w500)),
+            subtitle: Text("email: 0x00@163.com"),
+            leading: Icon(Icons.email),
+            trailing: Icon(Icons.keyboard_arrow_right),
+          )
+        ],
+      ),
+    )
+```
+
+
+
 
 
