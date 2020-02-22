@@ -434,6 +434,40 @@ class TestApp extends StatelessWidget {
 
 ```
 
+
+
+#### `Align`的使用
+
+```dart
+Container(
+            color: Colors.red,
+            width: 300.0,
+            height: 300.0,
+            child: Stack(
+              children: <Widget>[
+                Align(
+                  alignment: Alignment(0, -1), //x,y的取值区间都是-1 ~ 1
+                  child: Icon(Icons.open_with, color: Colors.blue),
+                ),
+                Align(
+                  alignment: Alignment(0, 0), //x,y的取值区间都是-1 ~ 1
+                  child: Icon(Icons.import_contacts, color: Colors.lightBlue),
+                ),
+                Align(
+                  alignment: Alignment(1, 1), //x,y的取值区间都是-1 ~ 1
+                  child: Icon(Icons.phone_iphone, color: Colors.blue),
+                ),
+                Align(
+                  alignment: Alignment.topRight, //也提供枚举值
+                  child: Icon(Icons.android, color: Colors.greenAccent),
+                ),
+              ],
+            ),
+          )
+```
+
+
+
 #### `Positioned`的使用
 
 ```dart
@@ -686,5 +720,149 @@ class ResultCallBackPage extends StatelessWidget {
 
 
 
- 
+## 11. `AspectRatio`调整宽高比例组件和`Wrap`流布局组件
+
+#### AspectRatio
+
+```dart
+AspectRatio(
+        aspectRatio: 4.0 / 1.0,
+        child: Container(color: Colors.orange),
+      )
+```
+
+#### Wrap
+
+```dart
+Container(
+              padding: EdgeInsets.all(15.0), //容器内边距
+              child: Wrap(
+                spacing: 10.0, //左右间距
+                runAlignment: WrapAlignment.start, //布局对齐方式
+                runSpacing: 10.0, //布局间距
+                textDirection: TextDirection.ltr, //从左到右布局
+                verticalDirection: VerticalDirection.down, //方向
+                crossAxisAlignment: WrapCrossAlignment.start, //交叉轴的对齐方式
+                children: <Widget>[
+                  MyButton("第1集"),
+                  MyButton("第2集"),
+                  MyButton("第3集"),
+                  MyButton("第4集"),
+                  MyButton("第5集"),
+                  MyButton("第6集"),
+                  MyButton("第7集"),
+                  MyButton("第8集"),
+                  MyButton("第9集"),
+                  MyButton("第10集"),
+                  MyButton("第11集"),
+                  MyButton("第12集"),
+                ],
+              ),
+            )
+```
+
+#### `SizeBox`
+
+```dart
+SizedBox(width: 100.0, height: 100.0, child: Text("你好!!")), //相当于弹簧或者占位用于调整布局的组件 都是可选参数 一般结合 Row Column Container ListView等组件使用,用于调整相对位置           
+```
+
+## 12. 有状态组件的示例
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(MaterialApp(
+      title: "状态组件",
+      home: Scaffold(appBar: AppBar(title: Text("状态组件")), body: FirstPage()),
+    ));
+
+class FirstPage extends StatefulWidget {
+  FirstPage({Key key}) : super(key: key);
+  @override
+  _FirstPageState createState() => _FirstPageState();
+}
+
+class _FirstPageState extends State<FirstPage> {
+  List list = new List();
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      children: <Widget>[
+        Column(
+            children: this.list.map((value) {
+          return ListTile(title: Text(value));
+        }).toList()),
+        SizedBox(height: 20),
+        RaisedButton(
+            child: Text("Add数据项"),
+            onPressed: () {
+              setState(() {
+                var item = "这是数据项" + this.list.length.toString() ?? "0";
+                this.list.add(item);
+                // this.list.add("这是数据项2");
+              });
+            })
+      ],
+    );
+  }
+}
+```
+
+
+
+## 13.  `BottomNavigationBar`底部导航搭建
+
+```dart
+import 'package:flutter/material.dart';
+import '../home/home.dart';
+import '../category/category.dart';
+import '../find/find.dart';
+import '../settings/settings.dart';
+
+class TabBarPage extends StatefulWidget {
+  TabBarPage({Key key}) : super(key: key);
+  @override
+  _TabBarPageState createState() => _TabBarPageState();
+}
+
+class _TabBarPageState extends State<TabBarPage> {
+  //默认选中第一个
+  int _currentIndex = 0;
+  //标题
+  final List<String> titles = [
+    "微信",
+    "通讯录",
+    "发现",
+    "我",
+  ];
+  //图标
+  final List<Icon> icons = [Icon(Icons.chat_bubble), Icon(Icons.contact_mail), Icon(Icons.search), Icon(Icons.person)];
+
+  // 各模块页面 都是继承自状态组件
+  final List<Widget> pages = [HomePage(), CategoryPage(), FindPage(), SettingsPage()];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(this.titles[this._currentIndex])),
+      body: pages[this._currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+          currentIndex: this._currentIndex,
+          onTap: (int index) {
+            setState(() {
+              this._currentIndex = index;
+            });
+          },
+          unselectedItemColor: Colors.grey,
+          fixedColor: Colors.red, //选中颜色
+          iconSize: 30.0, //icon大小
+          type: BottomNavigationBarType.fixed, //大于等于4个item需要设置该属性
+          items: List.generate(
+              titles.length, (index) => BottomNavigationBarItem(icon: icons[index], title: Text(titles[index])))),
+    );
+  }
+}
+
+```
 
