@@ -1,5 +1,11 @@
 [TOC]
 
+
+
+# 学习`Flutter`的代码片段
+
+
+
 ## 1. `TextWidget`的使用
 
 ```dart
@@ -538,7 +544,7 @@ Card(
 
 
 
-## 10.  导航相关
+## 10.  导航和路由相关
 
 #### 导航跳转/返回
 
@@ -720,6 +726,249 @@ class ResultCallBackPage extends StatelessWidget {
 
 
 
+####  路由的基本使用
+
+```dart
+//main.dart
+import 'package:flutter/material.dart';
+import 'routes.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      initialRoute: '/',
+      onGenerateRoute: onGenerateRoute,
+    );
+  }
+}
+
+//routes.dart
+
+import 'package:flutter/material.dart';
+import 'package:routes_demo/pages/goods.dart';
+import 'package:routes_demo/pages/home.dart';
+import 'package:routes_demo/pages/search.dart';
+import 'tabbar.dart';
+import './pages/detail.dart';
+
+final Map<String, Function> routes = {
+  '/': (context, {arguments}) => TabBarPageVC(),
+  '/home': (context, {arguments}) => HomePage(),
+  '/goods': (context, {arguments}) => GoodsPage(),
+  '/detail': (context, {arguments}) => DetailPage(arguments: arguments),
+  '/search': (context, {arguments}) => SearchPage(arguments: arguments)
+};
+
+//命名路由传参的固定写法
+var onGenerateRoute = (RouteSettings settings) {
+  // 统一处理
+  final String name = settings.name;
+  final Function pageContentBuilder = routes[name];
+
+  if (pageContentBuilder != null) {
+    final Route route =
+        MaterialPageRoute(builder: (context) => pageContentBuilder(context, arguments: settings.arguments));
+    return route;
+  }
+};
+
+//tabbar.dart
+
+import 'package:flutter/material.dart';
+import './pages/home.dart';
+import './pages/goods.dart';
+import './pages/search.dart';
+
+class TabBarPageVC extends StatefulWidget {
+  TabBarPageVC({Key key}) : super(key: key);
+
+  @override
+  _TabBarPageVCState createState() => _TabBarPageVCState();
+}
+
+class _TabBarPageVCState extends State<TabBarPageVC> {
+  int selectIndex = 0;
+  final List<Widget> modules = [
+    HomePage(),
+    GoodsPage(),
+    SearchPage(),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      // appBar: AppBar(title: Text("路由组件")),
+      body: this.modules[this.selectIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: this.selectIndex,
+        onTap: (int index) {
+          setState(() {
+            this.selectIndex = index;
+          });
+        },
+        type: BottomNavigationBarType.fixed,
+        fixedColor: Colors.red,
+        iconSize: 30.0,
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home), title: Text("首页")),
+          BottomNavigationBarItem(icon: Icon(Icons.store), title: Text("商品")),
+          BottomNavigationBarItem(icon: Icon(Icons.search), title: Text("搜索")),
+        ],
+      ),
+    );
+  }
+}
+
+//home.dart
+
+import 'package:flutter/material.dart';
+
+class HomePage extends StatefulWidget {
+  HomePage({Key key}) : super(key: key);
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("首页"),
+      ),
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            RaisedButton(
+              child: Text("路由跳转至搜索页面"),
+              onPressed: () {
+                Navigator.pushNamed(context, '/search', arguments: {"name": "命名路由传参", "id": "home -> search"});
+              },
+            ),
+            SizedBox(
+              height: 20.0,
+            ),
+            RaisedButton(
+              child: Text("路由跳转商品页面"),
+              onPressed: () {
+                Navigator.pushNamed(context, '/goods', arguments: {});
+              },
+            ),
+            SizedBox(height: 20.0),
+            RaisedButton(
+              child: Text("路由跳转商品详情页面"),
+              onPressed: () {
+                Navigator.pushNamed(context, '/detail', arguments: {'id': 'home -> detail'});
+              },
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+
+//goods.dart
+import 'package:flutter/material.dart';
+
+class GoodsPage extends StatefulWidget {
+  GoodsPage({Key key}) : super(key: key);
+
+  @override
+  _GoodsPageState createState() => _GoodsPageState();
+}
+
+class _GoodsPageState extends State<GoodsPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("商品页面"),
+      ),
+      body: Center(
+        child: RaisedButton(
+          child: Text("点击按钮替换路由"),
+          onPressed: () {
+                       //替换路由的两种方式:
+            // Navigator.of(context).pushReplacementNamed("/detail",
+            //     arguments: {"id": "replace替换路由切换页面 goods -> detail,goods销毁,detail代替该层级"});
+            Navigator.pushReplacementNamed(context, '/detail',
+                arguments: {"id": "replace替换路由切换页面 goods -> detail,goods销毁,detail代替该层级"});
+
+          },
+        ),
+      ),
+    );
+  }
+}
+
+
+//detail.dart
+import 'package:flutter/material.dart';
+import 'package:routes_demo/tabbar.dart';
+
+class DetailPage extends StatelessWidget {
+  var arguments;
+  DetailPage({Key key, this.arguments}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text("详情页"),
+        ),
+        body: Center(
+          child: RaisedButton(
+            child: Text("接收参数: ${this.arguments != null ? this.arguments['id'] : '0'} \n 点击返回根路由"),
+            onPressed: () {
+              //返回根路由
+              Navigator.of(context).pushAndRemoveUntil(
+                  new MaterialPageRoute(builder: (context) => new TabBarPageVC()), (route) => route == null);
+            },
+          ),
+        ));
+  }
+}
+
+//search.dart
+import 'package:flutter/material.dart';
+
+class SearchPage extends StatelessWidget {
+  final Map arguments; //可选参数
+  SearchPage({Key key, this.arguments}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("搜索"),
+      ),
+      body: Center(
+        child: RaisedButton(
+          child: Text(
+              "接收参数: ${this.arguments != null ? this.arguments['name'] : '并未传参'} ${this.arguments != null ? this.arguments['id'] : '0'}  \n点击按钮跳转详情页"),
+          onPressed: () {
+            Navigator.pushNamed(context, '/detail', arguments: {"id": "search -> detail"});
+          },
+        ),
+      ),
+    );
+  }
+}
+
+
+
+```
+
+
+
 ## 11. `AspectRatio`调整宽高比例组件和`Wrap`流布局组件
 
 #### AspectRatio
@@ -864,5 +1113,299 @@ class _TabBarPageState extends State<TabBarPage> {
   }
 }
 
+```
+
+## 14.自定义`AppBar`
+
+```dart
+//隐藏Debug标识
+class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      initialRoute: '/',
+      onGenerateRoute: onGenerateRoute,
+      debugShowCheckedModeBanner: false, //隐藏Debug标识
+    );
+  }
+}
+
+//自定义AppBar
+AppBar(
+        title: Text("自定义AppBar"),
+        centerTitle: true, //标题组件居中
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.menu),
+            onPressed: () {
+              print("菜单");
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              print("搜索");
+            },
+          ),
+        ],
+        // bottom: ,//该属性一般放tabBar组件
+      )
+
+ 
+```
+
+#### 仿头条tab顶部导航
+
+```dart
+import 'package:flutter/material.dart';
+
+class TouTiaoTabPage extends StatelessWidget {
+  const TouTiaoTabPage({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final List<String> items = [
+      "推荐",
+      "精选",
+      "热门",
+      "今日说法",
+      "今天,我想谈个恋爱",
+      "本地",
+      "电影",
+      "电视剧",
+      "动漫",
+      "鬼畜",
+      "教育",
+      "直播",
+      "小视频",
+      "新闻",
+      "战疫请",
+      "游戏",
+      "资讯",
+      "股票"
+    ];
+    return DefaultTabController(
+      length: items.length,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.black54,
+          title: Text("仿头条Tab导航效果"),
+          bottom: TabBar(
+            tabs: List.generate(items.length, (index) => Tab(text: items[index])),
+            indicatorColor: Colors.lightBlue,
+            labelColor: Colors.lightBlue,
+            unselectedLabelColor: Colors.white,
+            indicatorSize: TabBarIndicatorSize.label, //和文字等宽
+            labelPadding: EdgeInsets.fromLTRB(15.0, 0, 15, 0),
+            labelStyle: TextStyle(fontSize: 20.0),
+            unselectedLabelStyle: TextStyle(fontSize: 18.0),
+            indicatorWeight: 3.0,
+            indicatorPadding: EdgeInsets.fromLTRB(0, 0, 0, 6),
+            isScrollable: true, //超过一屏时滚动
+          ),
+        ),
+        body: TabBarView(
+            children: List.generate(items.length, (listIndex) {
+          return ListView(
+            children: List.generate(30, (itemIndex) => ListTile(title: Text("${items[listIndex]}列表的item $itemIndex"))),
+          );
+        })),
+      ),
+    );
+  }
+}
+
+```
+
+## 15. `TabBarController`的使用
+
+```dart
+import 'package:flutter/material.dart';
+
+class TabBarControllerPage extends StatefulWidget {
+  TabBarControllerPage({Key key}) : super(key: key);
+  @override
+  _TabBarControllerPageState createState() => _TabBarControllerPageState();
+}
+
+class _TabBarControllerPageState extends State<TabBarControllerPage> with SingleTickerProviderStateMixin {
+  TabController _tabController;
+  @override
+  void initState() {
+    //生命周期: 初始化函数
+    super.initState();
+    _tabController = TabController(vsync: this, length: 3);
+
+    _tabController.addListener(() {
+      print(_tabController.index);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("TabController的使用"),
+        bottom: TabBar(
+          controller: _tabController,
+          tabs: <Widget>[
+            Tab(text: "推荐"),
+            Tab(text: "热门"),
+            Tab(text: "同城"),
+          ],
+        ),
+      ),
+      body: TabBarView(
+        controller: _tabController,
+        children: <Widget>[
+          Center(child: Text("内容内容内容...")),
+          Center(child: Text("内容内容内容...")),
+          Center(child: Text("内容内容内容...")),
+        ],
+      ),
+    );
+  }
+}
+
+```
+
+## 16. `Drawer`侧边栏的使用
+
+```dart
+//在`Scaffold`子组件里直接简单添加(默认会在导航栏生成对应一侧的菜单按钮) 至于层级看自己的选择 tabBar几个选项都可以调用的话 只能写在根页面的Scaffold里 反之写在对应的子页面即可
+Scaffold(
+      appBar: AppBar(
+        title: Text("搜索"),
+      ),
+      body: Center(
+        child: RaisedButton(
+          child: Text(
+              "按钮"),
+          onPressed: () {},
+        ),
+      ),
+     drawer: Drawer(
+        child: Column(
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Expanded(
+                  //装饰侧滑菜单头部的一个组件 可自定义的组件
+                  child: DrawerHeader(
+                      child: Text("\n\n\n你好,Flutter!!!", style: TextStyle(color: Colors.yellow, fontSize: 25.0)),
+                      decoration: BoxDecoration(
+                        // color: Colors.orange,
+                        image: DecorationImage(
+                            image: NetworkImage('https://www.itying.com/images/flutter/2.png'), fit: BoxFit.cover),
+                      )),
+                )
+              ],
+            ),
+            ListTile(
+              leading: CircleAvatar(
+                child: Icon(Icons.home, color: Colors.green),
+              ),
+              title: Text("首页"),
+              trailing: Icon(Icons.keyboard_arrow_right),
+              onTap: () {
+                Navigator.of(context).pop(); //隐藏侧边栏
+                Navigator.pushNamed(context, '/home');
+              },
+            ),
+            ListTile(
+              leading: CircleAvatar(
+                child: Icon(Icons.category, color: Colors.lightBlue),
+              ),
+              title: Text("分类"),
+              trailing: Icon(Icons.keyboard_arrow_right),
+            ),
+            ListTile(
+              leading: CircleAvatar(
+                child: Icon(Icons.search, color: Colors.yellow),
+              ),
+              title: Text("发现"),
+              trailing: Icon(Icons.keyboard_arrow_right),
+            ),
+            ListTile(
+              leading: CircleAvatar(
+                child: Icon(Icons.person, color: Colors.pink),
+              ),
+              title: Text("我的"),
+              trailing: Icon(Icons.keyboard_arrow_right),
+              onTap: () {
+                Navigator.of(context).pop(); //隐藏侧边栏
+                Navigator.pushNamed(context, '/user');
+              },
+            ),
+          ],
+        ),
+      ),
+      endDrawer: Drawer(
+          child: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Expanded(
+                  //装饰侧滑菜单头部的一个组件 固定样式组件
+                  child: UserAccountsDrawerHeader(
+                      accountName: Text("CoderWGB"),
+                      accountEmail: Text("864562082@qq.com"),
+                      currentAccountPicture: CircleAvatar(
+                        backgroundImage: NetworkImage('https://www.itying.com/images/flutter/5.png'),
+                      ),
+                      decoration: BoxDecoration(
+                        // color: Colors.orange,
+                        image: DecorationImage(
+                            image: NetworkImage('https://www.itying.com/images/flutter/2.png'), fit: BoxFit.cover),
+                      )))
+            ],
+          ),
+          ListTile(
+            leading: CircleAvatar(
+              child: Icon(Icons.home, color: Colors.green),
+            ),
+            title: Text("首页"),
+            trailing: Icon(Icons.keyboard_arrow_right),
+            onTap: () {
+              Navigator.of(context).pop(); //隐藏侧边栏
+              Navigator.pushNamed(context, '/home');
+            },
+          ),
+          ListTile(
+            leading: CircleAvatar(
+              child: Icon(Icons.category, color: Colors.lightBlue),
+            ),
+            title: Text("分类"),
+            trailing: Icon(Icons.keyboard_arrow_right),
+          ),
+          ListTile(
+            leading: CircleAvatar(
+              child: Icon(Icons.search, color: Colors.yellow),
+            ),
+            title: Text("发现"),
+            trailing: Icon(Icons.keyboard_arrow_right),
+          ),
+          ListTile(
+            leading: CircleAvatar(
+              child: Icon(Icons.person, color: Colors.pink),
+            ),
+            title: Text("我的"),
+            trailing: Icon(Icons.keyboard_arrow_right),
+            onTap: () {
+              Navigator.of(context).pop(); //隐藏侧边栏
+              Navigator.pushNamed(context, '/user');
+            },
+          ),
+        ],
+      )),
+    )
 ```
 
