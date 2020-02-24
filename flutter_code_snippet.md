@@ -1526,6 +1526,24 @@ ButtonBar(
           ),
 ```
 
+#### FloatingActionButton 
+
+```dart
+//类似闲鱼tabBar中间的➕按钮
+//Scaffold组件的属性与AppBar同级
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add_circle, size: 40.0),
+        tooltip: "浮动按钮",
+        foregroundColor: Colors.white,
+        backgroundColor: Colors.yellow,
+        onPressed: () {},
+      ),
+//不同枚举值表示不同位置
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+```
+
+
+
 #### 自定义按钮组件
 
 ```dart
@@ -1575,7 +1593,189 @@ class MyCustomButton extends StatelessWidget {
 }
 ```
 
+## 18. 文本输入框相关
+
+#### Textfield的基本使用
+
+```dart
+//可以使用TextEditingController 用于获取文本和设置文本初始值
+//只获取文本 直接定义一个属性在onchange回调里接收即可
+Padding(
+          padding: EdgeInsets.all(20.0),
+          child: Column(
+            children: <Widget>[
+              TextField(
+                onChanged: (String text) {},
+                decoration:
+                    InputDecoration(hintText: "请输入用户名", hintStyle: TextStyle(color: Colors.blue, fontSize: 20.0)),
+              ),
+              SizedBox(height: 20),
+              TextField(
+                onChanged: (String text) {},
+                keyboardType: TextInputType.phone,//键盘类型枚举
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(),//边框
+                    icon: Icon(Icons.phone_iphone),//图标
+                    labelText: "手机号", //类似标题类型的placeholder
+                    labelStyle: TextStyle(color: Colors.blue, fontSize: 20.0)),
+              ),
+              SizedBox(height: 20),
+              TextField(
+                onChanged: (String text) {},
+                obscureText: true,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    icon: Icon(Icons.security),
+                    hintText: "请输入密码", //placeholder
+                    hintStyle: TextStyle(color: Colors.blue, fontSize: 20.0)),
+              ),
+              SizedBox(height: 20),
+              TextField(
+                onChanged: (String text) {},
+                maxLength: 200, //限制输入长度
+                maxLines: 3, //多行输入
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    icon: Icon(Icons.phone_iphone),
+                    labelText: "用户名/手机号",
+                    labelStyle: TextStyle(color: Colors.blue, fontSize: 20.0)),
+              ),
+            ],
+          ),
+        )
+```
 
 
 
+## 19. Checkbox,Radio等相关组件的使用
+
+```dart
+import 'package:flutter/material.dart';
+
+class CheckBoxPage extends StatefulWidget {
+  CheckBoxPage({Key key}) : super(key: key);
+
+  @override
+  _CheckBoxPageState createState() => _CheckBoxPageState();
+}
+
+class _CheckBoxPageState extends State<CheckBoxPage> {
+  var flag = true;
+  int sex;
+  int pic;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("CheckBox和Radio相关组件"),
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Checkbox(
+                value: flag,
+                onChanged: (value) {
+                  setState(() {
+                    this.flag = value;
+                  });
+                },
+                activeColor: Colors.green,
+              ),
+              SizedBox(width: 5.0),
+              Text(this.flag ? "选中" : "未选中"),
+            ],
+          ),
+          SizedBox(height: 5),
+          CheckboxListTile(
+              value: this.flag,
+              onChanged: (value) {
+                setState(() {
+                  this.flag = value;
+                });
+              },
+              activeColor: Colors.red,
+              title: Text("CheckboxListTile"),
+              subtitle: Text(this.flag ? "选中" : "未选中"),
+              secondary: Icon(Icons.add_circle_outline)),
+          SizedBox(height: 5.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text("男"),
+              Radio(
+                value: 1,
+                groupValue: this.sex,
+                onChanged: (value) {
+                  setState(() {
+                    this.sex = value;
+                  });
+                },
+              ),
+              SizedBox(width: 5.0),
+              Text("女"),
+              Radio(
+                value: 2,
+                groupValue: this.sex,
+                onChanged: (value) {
+                  setState(() {
+                    this.sex = value;
+                  });
+                },
+              ),
+            ],
+          ),
+          SizedBox(height: 5),
+          Text(this.sex == 1 ? "已选: 男" : "已选: 女"),
+          SizedBox(height: 5),
+          RadioListTile(
+              value: 1,
+              groupValue: this.pic,
+              onChanged: (value) {
+                setState(() {
+                  this.pic = value;
+                });
+              },
+              activeColor: Colors.red,
+              title: Text("RadioListTile"),
+              subtitle: Text("图片1"),
+              secondary: Icon(Icons.add_circle_outline),
+              selected: this.pic == 1),
+          RadioListTile(
+              value: 2,
+              groupValue: this.pic,
+              onChanged: (value) {
+                setState(() {
+                  this.pic = value;
+                });
+              },
+              activeColor: Colors.red,
+              title: Text("RadioListTile"),
+              subtitle: Text("图片2"),
+              secondary: Image.network('https://www.itying.com/images/flutter/2.png'),
+              selected: this.pic == 2),
+          SizedBox(height: 5),
+          Text(this.pic == 1 ? "已选: 图片1" : "已选: 图片2"),
+        ],
+      ),
+    );
+  }
+}
+
+//框架自带的Switch太丑了 
+Switch(
+                value: this.switchOn,
+                onChanged: (isOn) {
+                  setState(() {
+                    this.switchOn = isOn;
+                  });
+                },
+              )
+
+```
+
+
+
+ 
 
