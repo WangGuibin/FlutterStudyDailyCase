@@ -1777,5 +1777,247 @@ Switch(
 
 
 
+## 20. 第三方库的引用
+
+```yaml
+#在pubspec.yaml文件中编辑
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations: 
+    sdk: flutter
+	# 以下操作就是引入第三方库的方式
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^0.1.2 #苹果风格图标库引入
+  date_format: ^1.0.8  #时间格式转换库
+  flutter_cupertino_date_picker: ^1.0.12 #日期时间选择
+  flutter_swiper: ^1.1.6 # 轮播组件
+    
+ # 完事之后cmd+s保存 VSCode自动帮下载依赖 不下载的话可执行 flutter pub get
+ # 然后需要使用的地方引入头文件即可使用 
+
+```
+
+
+
+## 21. 日期选择组件
+
+[日期选择组件文档](https://pub.dev/packages/flutter_cupertino_date_picker)
+
+[日期时间格式化组件文档](https://pub.dev/packages/date_format)
+
+```dart
+import 'package:date_format/date_format.dart';
+import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
+import 'package:flutter/material.dart';
+
+class DatePickerPage extends StatefulWidget {
+  DatePickerPage({Key key}) : super(key: key);
+  @override
+  _DatePickerPageState createState() => _DatePickerPageState();
+}
+
+class _DatePickerPageState extends State<DatePickerPage> {
+  DateTime currentDate;
+  TimeOfDay currentTime;
+  DateTime datePickerTime;
+
+  @override
+  void initState() {
+    super.initState();
+    currentDate = DateTime.now();
+    currentTime = TimeOfDay(hour: 14, minute: 25);
+    datePickerTime = DateTime.parse("2020-02-25");
+  }
+
+  _showDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: this.currentDate,
+      firstDate: DateTime(1970, 1, 1),
+      lastDate: DateTime(2080, 12, 31),
+    ).then((date) {
+      setState(() {
+        this.currentDate = date ?? this.currentDate;
+      });
+    });
+  }
+
+  _showTimePicker() async {
+    var result = await showTimePicker(
+      context: context,
+      initialTime: this.currentTime,
+    );
+    setState(() {
+      this.currentTime = result ?? this.currentTime;
+    });
+  }
+
+  _showCupertinoDatePicker() {
+    DatePicker.showDatePicker(
+      context,
+      pickerTheme: DateTimePickerTheme(
+        // showTitle: true,
+        // title: Text("${formatDate(this.datePickerTime, [yyyy, "-", mm, "-", dd])}"),
+        confirm: Text('确定', style: TextStyle(color: Colors.blue)),
+        cancel: Text('取消', style: TextStyle(color: Colors.red)),
+      ),
+      minDateTime: DateTime.parse("2000-05-12"),
+      maxDateTime: DateTime.parse("2021-11-25"),
+      initialDateTime: this.datePickerTime,
+      dateFormat: "yyyy-MMMM-dd",
+      locale: DateTimePickerLocale.zh_cn,
+      onClose: () => print("----- 已关闭 -----"),
+      onCancel: () => print('已取消'),
+      onChange: (dateTime, List<int> index) {
+        setState(() {
+          this.datePickerTime = dateTime;
+        });
+      },
+      onConfirm: (dateTime, List<int> index) {
+        setState(() {
+          this.datePickerTime = dateTime;
+        });
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text("日期时间组件"),
+        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            InkWell(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.date_range,
+                      color: Colors.lightBlue,
+                      size: 30.0,
+                    ),
+                    Text(formatDate(this.currentDate, [yyyy, "年", mm, "月", dd, "日"])),
+                    Icon(Icons.arrow_drop_down)
+                  ],
+                ),
+                onTap: _showDatePicker),
+            SizedBox(height: 20.0),
+            InkWell(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(Icons.watch_later),
+                  Text("${currentTime.format(context)}"),
+                  Icon(Icons.arrow_drop_down)
+                ],
+              ),
+              onTap: _showTimePicker,
+            ),
+            SizedBox(height: 20.0),
+            InkWell(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(Icons.calendar_today),
+                  Text("第三方苹果风格的日期选择组件${formatDate(this.datePickerTime, [yyyy, "-", mm, "-", dd])}"),
+                  Icon(Icons.arrow_drop_down)
+                ],
+              ),
+              onTap: _showCupertinoDatePicker,
+            )
+          ],
+        ));
+  }
+}
+
+```
+
+
+
+## 22. 轮播组件
+
+[使用文档](https://github.com/best-flutter/flutter_swiper/blob/master/README-ZH.md#%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8)
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
+
+//获取网络图片的快捷方法
+String getExampleImageWithIndex(int index) {
+  return "https://www.itying.com/images/flutter/${index + 1}.png";
+}
+
+class BannerPage extends StatefulWidget {
+  BannerPage({Key key}) : super(key: key);
+
+  @override
+  _BannerPageState createState() => _BannerPageState();
+}
+
+
+class _BannerPageState extends State<BannerPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("轮播组件")),
+      body: Column(
+        children: <Widget>[
+          Container(
+            width: double.infinity,
+            child: AspectRatio(
+              aspectRatio: 16.0 / 9.0,
+              child: Swiper(
+                loop: true, //循环滚动
+                index: 0, //指定默认下标
+                scrollDirection: Axis.horizontal, //滚动方向
+                autoplay: true, //自动轮播
+                duration: 3000, //滚动间隔 单位ms
+                itemBuilder: (context, index) {
+                  return Image.network(getExampleImageWithIndex(index), fit: BoxFit.cover);
+                },
+                itemCount: 5,
+                pagination: SwiperPagination(), //小圆点
+                control: SwiperControl(), //左右箭头
+              ),
+            ),
+          ),
+          SizedBox(height: 20),
+          Container(
+            child: AspectRatio(
+              aspectRatio: 16.0 / 9.0,
+              child: Swiper(
+                loop: true, //循环滚动
+                index: 0, //指定默认下标
+                scrollDirection: Axis.horizontal, //滚动方向
+                autoplay: true, //自动轮播
+                duration: 3000, //滚动间隔 单位ms
+                itemBuilder: (BuildContext context, int index) {
+                  return Image.network(
+                    getExampleImageWithIndex(index),
+                    fit: BoxFit.cover,
+                  );
+                },
+                itemCount: 5,
+                viewportFraction: 0.8,
+                scale: 0.9,
+                pagination: SwiperPagination(alignment: Alignment.topRight, builder: SwiperPagination.fraction), //下标展示
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+```
+
+
+
  
 
