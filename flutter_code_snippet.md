@@ -2385,12 +2385,12 @@ class MyDialog extends Dialog {
 
 1. 采用第三方库`http_server` ,新建一个`pubspec.yaml`配置文件,保存下载库依赖即可
 
-   ```yaml
+```yaml
    name: dart_website
    description: A dart Server project.
    dependencies:
      http_server: ^0.9.8
-   ```
+```
 
 2. 新建一个.vscode/launch.json配置文件(重要)
 
@@ -2408,12 +2408,12 @@ class MyDialog extends Dialog {
 
 3. 新建一个main.dart开始写代码
 
-     ```dart
-import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
-
-var products = {
+```dart
+     import 'dart:async';
+     import 'dart:convert';
+     import 'dart:io';
+     
+	var products = {
   "data":[
     {
      "name" : "苹果手机",
@@ -2438,8 +2438,6 @@ var news = {
     }
   ]
 };
-
-
 
 main() async {
   //设置本地ip和端口
@@ -2489,7 +2487,8 @@ void handlePOST(HttpRequest request) {
     ..close();
 }
 
-     ```
+
+```
 
 
 
