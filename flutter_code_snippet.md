@@ -6,6 +6,74 @@
 
 
 
+目录索引列表如下:
+=================
+
+   * [学习Flutter的代码片段](#学习flutter的代码片段)
+      * [1. TextWidget的使用](#1-textwidget的使用)
+      * [2. Container容器组件的使用](#2-container容器组件的使用)
+      * [3. ImageWidget的使用](#3-imagewidget的使用)
+            * [网络图片加载](#网络图片加载)
+            * [滤镜渲染相关](#滤镜渲染相关)
+            * [图片平铺充满容器](#图片平铺充满容器)
+      * [4. ListViewWidget列表组件](#4-listviewwidget列表组件)
+            * [图片列表](#图片列表)
+            * [混合cell实例](#混合cell实例)
+            * [横向滚动列表并且自定义组件分离嵌套代码](#横向滚动列表并且自定义组件分离嵌套代码)
+            * [动态列表的写法示例](#动态列表的写法示例)
+      * [5. GridWidget网格布局组件](#5-gridwidget网格布局组件)
+            * [GridView简单写法](#gridview简单写法)
+            * [GridView另一种写法并加入图片](#gridview另一种写法并加入图片)
+      * [6. RowWidget的使用](#6-rowwidget的使用)
+      * [7. ColumnWidget的使用](#7-columnwidget的使用)
+      * [8. StackWidget 堆叠/栈视图的使用](#8-stackwidget-堆叠栈视图的使用)
+            * [Align的使用](#align的使用)
+            * [Positioned的使用](#positioned的使用)
+      * [9. CardWidget卡片布局](#9-cardwidget卡片布局)
+      * [10.  导航和路由相关](#10--导航和路由相关)
+            * [导航跳转/返回](#导航跳转返回)
+            * [导航页面之间传值(正向传值)](#导航页面之间传值正向传值)
+            * [导航页面反向传值(pop时回调传值)](#导航页面反向传值pop时回调传值)
+            * [路由的基本使用](#路由的基本使用)
+      * [11. AspectRatio调整宽高比例组件和Wrap流布局组件](#11-aspectratio调整宽高比例组件和wrap流布局组件)
+            * [AspectRatio](#aspectratio)
+            * [Wrap](#wrap)
+            * [SizeBox](#sizebox)
+      * [12. 有状态组件的示例](#12-有状态组件的示例)
+      * [13.  BottomNavigationBar底部导航搭建](#13--bottomnavigationbar底部导航搭建)
+      * [14.自定义AppBar](#14自定义appbar)
+            * [仿头条tab顶部导航](#仿头条tab顶部导航)
+      * [15. TabBarController的使用](#15-tabbarcontroller的使用)
+      * [16. Drawer侧边栏的使用](#16-drawer侧边栏的使用)
+      * [17.  常用的按钮组件](#17--常用的按钮组件)
+            * [RaisedButton](#raisedbutton)
+            * [RaisedButton.icon 图标按钮](#raisedbuttonicon-图标按钮)
+            * [FlatButton](#flatbutton)
+            * [IconButton](#iconbutton)
+            * [OutlineButton](#outlinebutton)
+            * [ButtonBar](#buttonbar)
+            * [FloatingActionButton](#floatingactionbutton)
+            * [自定义按钮组件](#自定义按钮组件)
+      * [18. 文本输入框相关](#18-文本输入框相关)
+            * [Textfield的基本使用](#textfield的基本使用)
+      * [19. Checkbox,Radio等相关组件的使用](#19-checkboxradio等相关组件的使用)
+      * [20. 第三方库的引用](#20-第三方库的引用)
+      * [21. 日期选择组件](#21-日期选择组件)
+      * [22. 轮播组件](#22-轮播组件)
+      * [23. Dialog弹窗相关组件用法](#23-dialog弹窗相关组件用法)
+            * [自定义Dialog](#自定义dialog)
+      * [24. 网络请求相关](#24-网络请求相关)
+            * [使用Dart搭建本地webServer 服务](#使用dart搭建本地webserver-服务)
+            * [网络请求库http的简单使用](#网络请求库http的简单使用)
+
+Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
+
+
+
+
+
+
 ## 1. `TextWidget`的使用
 
 ```dart
@@ -2311,5 +2379,260 @@ class MyDialog extends Dialog {
 
 
 
- 
+## 24. 网络请求相关
+
+#### 使用Dart搭建本地webServer 服务
+
+1. 采用第三方库`http_server` ,新建一个`pubspec.yaml`配置文件,保存下载库依赖即可
+
+   ```yaml
+   name: dart_website
+   description: A dart Server project.
+   dependencies:
+     http_server: ^0.9.8
+   ```
+
+2. 新建一个.vscode/launch.json配置文件(重要)
+
+```json
+  {
+    "version": "0.2.0",
+    "configurations": [{
+        "name": "Dart",
+        "program": "main.dart",
+        "request": "launch",
+        "type": "dart"
+    }]
+}
+```
+
+3. 新建一个main.dart开始写代码
+
+     ```dart
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+
+var products = {
+  "data":[
+    {
+     "name" : "苹果手机",
+    "price":6666
+    },
+     {
+     "name" : "Mac",
+    "price":18666
+    },
+  ]
+};
+
+var news = {
+  "data":[
+    {
+     "title" : "新闻头条",
+    "desc":"哈上司是你们躲猫猫"
+    },
+     {
+     "title" : "新闻头条",
+    "desc":"哈上司是你们躲猫猫"
+    }
+  ]
+};
+
+
+
+main() async {
+  //设置本地ip和端口
+  var requestServer = await HttpServer.bind("192.168.0.104", 8089);
+  print("Dart server 已启动");
+
+  await for (HttpRequest request in requestServer) {
+    handleMessage(request);
+  }
+  ;
+}
+
+void handleMessage(HttpRequest request) {
+  try {
+    if (request.method == "GET") {
+      handleGET(request);
+    } else if (request.method == "POST") {
+      handlePOST(request);
+    }
+  } catch (e) {
+    print("捕获了一个异常$e");
+  }
+}
+
+void handleGET(HttpRequest request) {
+  //直接获取url上的参数
+  var action = request.uri.queryParameters["action"];
+  if (action == "getProducts") {
+    request.response
+      ..statusCode = HttpStatus.OK
+      ..write(JSON.encode(products))
+      ..close();
+  }
+
+  if (action == "getNews") {
+    request.response
+      ..statusCode = HttpStatus.OK
+      ..write(JSON.encode(news))
+      ..close();
+  }
+}
+
+void handlePOST(HttpRequest request) {
+  request.response
+    ..statusCode = HttpStatus.OK
+    ..write(JSON.encode(news))
+    ..close();
+}
+
+     ```
+
+
+
+#### 网络请求库http的简单使用
+
+```dart
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+class HttpRequestPage extends StatefulWidget {
+  HttpRequestPage({Key key}) : super(key: key);
+
+  @override
+  _HttpRequestPageState createState() => _HttpRequestPageState();
+}
+
+class _HttpRequestPageState extends State<HttpRequestPage> {
+  var address;
+  var body;
+  var method;
+  var result;
+  var _textCtrl = TextEditingController();
+  var _displayCtrl = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    address = "http://192.168.0.104:8089/?action=getProducts";
+    _textCtrl.text = address;
+    body = "";
+    method = 1;
+  }
+
+  _getDataRequest() async {
+    if (this.method == 1) {
+      var res = await http.get(address);
+      print('Response status: ${res.statusCode}');
+      print('Response body: ${res.body}');
+      setState(() {
+        this.result = res.body;
+        this._displayCtrl.text = res.body;
+      });
+    } else {
+      var res = await http.post(address, body: this.body);
+      print(this.body);
+      print('Response status: ${res.statusCode}');
+      print('Response body: ${res.body}');
+      setState(() {
+        this.result = res.body;
+        this._displayCtrl.text = res.body;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("网络请求示例"),
+        actions: <Widget>[
+          RaisedButton.icon(
+            color: Colors.transparent,
+            textColor: Colors.white,
+            icon: Icon(Icons.keyboard),
+            label: Text("✋收键盘⌨️"),
+            onPressed: () {
+              //收起键盘
+              FocusScope.of(context).requestFocus(new FocusNode());
+            },
+          )
+        ],
+      ),
+      body: Container(
+        padding: EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            TextField(
+              controller: _textCtrl,
+              decoration: InputDecoration(labelText: "输入URL地址", border: OutlineInputBorder()),
+              onChanged: (v) {
+                setState(() {
+                  this.address = v;
+                });
+              },
+            ),
+            SizedBox(height: 20.0),
+            TextField(
+              maxLines: 5,
+              decoration: InputDecoration(labelText: "请输入参数", border: OutlineInputBorder()),
+              onChanged: (v) {
+                setState(() {
+                  this.body = jsonEncode(v);
+                });
+              },
+            ),
+            SizedBox(height: 15.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text("GET"),
+                Radio(
+                  value: 1,
+                  groupValue: this.method,
+                  onChanged: (value) {
+                    setState(() {
+                      this.method = value;
+                    });
+                  },
+                ),
+                SizedBox(width: 5.0),
+                Text("POST"),
+                Radio(
+                  value: 2,
+                  groupValue: this.method,
+                  onChanged: (value) {
+                    setState(() {
+                      this.method = value;
+                    });
+                  },
+                ),
+              ],
+            ),
+            SizedBox(height: 20.0),
+            RaisedButton(
+              child: Text("提交参数 发起请求"),
+              onPressed: _getDataRequest,
+            ),
+            SizedBox(height: 10.0),
+            TextField(
+              controller: _displayCtrl,
+              maxLines: 8,
+              decoration: InputDecoration(labelText: "展示请求结果", border: OutlineInputBorder()),
+              onChanged: (v) {},
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+```
+
+
 
