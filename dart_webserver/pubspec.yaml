@@ -1,0 +1,4 @@
+name: dart_website
+description: A dart Server project.
+dependencies:
+  http_server: ^0.9.8

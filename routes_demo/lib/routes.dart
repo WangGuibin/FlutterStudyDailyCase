@@ -10,6 +10,13 @@ import './pages/toutiao.dart';
 import './pages/goods.dart';
 import './pages/tabBarVC.dart';
 import './pages/user.dart';
+import './pages/buttons.dart';
+import './pages/textfield.dart';
+import './pages/checkbox.dart';
+import './pages/datePicker.dart';
+import './pages/banner.dart';
+import './pages/dialog.dart';
+import './pages/request.dart';
 
 final Map<String, Function> routes = {
   '/': (context, {arguments}) => TabBarPageVC(),
@@ -22,6 +29,13 @@ final Map<String, Function> routes = {
   '/categoryTab': (context, {arguments}) => CategoryPage(),
   '/tabBarVCDemo': (context, {arguments}) => TabBarControllerPage(),
   '/user': (context, {arguments}) => UserPage(),
+  '/buttons': (context, {arguments}) => ButtonWidgetPage(),
+  '/textfield': (context, {arguments}) => TextfieldPage(),
+  '/checkbox': (context, {arguments}) => CheckBoxPage(),
+  '/datePicker': (context, {arguments}) => DatePickerPage(),
+  '/banner': (context, {arguments}) => BannerPage(),
+  '/dialog': (context, {arguments}) => DialogPage(),
+  '/request': (context, {arguments}) => HttpRequestPage(),
 };
 
 //命名路由传参的固定写法
