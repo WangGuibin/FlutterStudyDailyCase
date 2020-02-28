@@ -12,6 +12,8 @@ app.use(function(req, res, next) {
     next();
 });
 
+app.use("/getBannerData", require("./router/testData"));
+
 const port = process.env.port || 3000;
 app.listen(port, () => {
     console.log(`Node WebServer服务已启动 runing @http://localhost:${port}`);
