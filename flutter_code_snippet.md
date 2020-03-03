@@ -171,6 +171,21 @@ Container(
             color: Colors.greenAccent,
           )
 ```
+#### 渐变导航栏
+```dart
+AppBar(
+            title: Text("首页", style: TextStyle(color: Colors.white)),
+            flexibleSpace: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [Colors.blue[100], Colors.blue[300], Colors.blue],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter),
+              ),
+            ),
+          )
+```
+
 
 ## 4. `ListViewWidget`列表组件
 #### 图片列表
