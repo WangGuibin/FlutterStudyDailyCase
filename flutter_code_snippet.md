@@ -14,8 +14,8 @@
       * [2. Container容器组件的使用](#2-container容器组件的使用)
       * [3. ImageWidget的使用](#3-imagewidget的使用)
             * [网络图片加载](#网络图片加载)
-            * [滤镜渲染相关](#滤镜渲染相关)
-            * [图片平铺充满容器](#图片平铺充满容器)
+                * [滤镜渲染相关](#滤镜渲染相关)
+                * [图片平铺充满容器](#图片平铺充满容器)
       * [4. ListViewWidget列表组件](#4-listviewwidget列表组件)
             * [图片列表](#图片列表)
             * [混合cell实例](#混合cell实例)
@@ -1537,7 +1537,7 @@ RaisedButton(
   
 ```
 
-####  RaisedButton.icon 图标按钮
+####  RaisedButton.icon 通过构造方法按钮加图标(其他类型按钮均可此操作)
 
 ```dart
 RaisedButton.icon(
