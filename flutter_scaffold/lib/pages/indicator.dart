@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../config/index.dart';
 import '../widgets/full_icon_button.dart';
 import '../widgets/full_icon_text.dart';
 
@@ -8,12 +9,11 @@ class IndicatorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('自定义按钮和指示器'),
-      ),
+      appBar: createAppBar(context, "自定义按钮和指示器"),
       body: Container(
           child: Column(
         children: <Widget>[
+          SizedBox(height: 20.0),
           FullIconButton(
             onPressed: () {},
             label: Text("按钮"),

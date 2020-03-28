@@ -7,6 +7,10 @@ import './category.dart';
 import './me.dart';
 import './search.dart';
 import './circle.dart';
+import './frosted_glass.dart';
+import './card.dart';
+import './transitionAnimation.dart';
+import './deleteListItem.dart';
 
 final Map<String, Function> routes = {
   '/': (context, {arguments}) => TabBarPage(),
@@ -17,6 +21,10 @@ final Map<String, Function> routes = {
   '/me': (context, {arguments}) => MePage(),
   '/indicator': (context, {arguments}) => IndicatorPage(),
   '/circle': (context, {arguments}) => FriendCirclePage(),
+  '/frosted_glass': (context, {arguments}) => FrostedGlassDemo(),
+  '/card': (context, {arguments}) => CardPage(),
+  '/pagetransition': (context, {arguments}) => PageTransitionAnimationPage(),
+  '/deleteListItem': (context, {arguments}) => DeleteListItemPage(),
 };
 
 //命名路由传参的固定写法

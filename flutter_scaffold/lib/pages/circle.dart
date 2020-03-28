@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../config/index.dart';
 
 class CircleDataModel {
   final String nickname;
@@ -41,17 +42,7 @@ class FriendCirclePage extends StatelessWidget {
           time: "15:01:45"),
     ];
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "盆友圈",
-          style: TextStyle(color: Colors.white),
-        ),
-        leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios, color: Colors.white, size: 30.0),
-            onPressed: () {
-              Navigator.pop(context);
-            }),
-      ),
+      appBar: createAppBar(context, "盆友圈"),
       body: ListView.builder(
         itemCount: dataList.length,
         itemBuilder: (BuildContext context, int index) {

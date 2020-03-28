@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../config/index.dart';
 
 class MePage extends StatelessWidget {
   const MePage({Key key}) : super(key: key);
@@ -6,7 +7,7 @@ class MePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("个人中心")),
+      appBar: createAppBar(context, "个人中心", false),
       body: Container(
         color: Colors.orange,
         child: Text("这是我的页面"),
