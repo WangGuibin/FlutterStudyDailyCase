@@ -16,7 +16,9 @@ class FrostedGlassDemo extends StatelessWidget {
       appBar: createAppBar(context, "毛玻璃效果"),
       body: new Stack(
         children: <Widget>[
-          new ConstrainedBox(constraints: const BoxConstraints.expand(), child: new FlutterLogo()),
+          new ConstrainedBox(
+              constraints: const BoxConstraints.expand(),
+              child: new FlutterLogo()),
           new Center(
             child: new ClipRect(
               child: new BackdropFilter(
@@ -31,7 +33,8 @@ class FrostedGlassDemo extends StatelessWidget {
                       color: Colors.grey.shade200,
                     ),
                     child: new Center(
-                      child: new Text('毛玻璃', style: Theme.of(context).textTheme.display3),
+                      child: new Text('毛玻璃',
+                          style: Theme.of(context).textTheme.display3),
                     ),
                   ),
                 ),

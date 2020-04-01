@@ -7,7 +7,8 @@ class CircleDataModel {
   final String desc;
   final String photo;
   final String time;
-  CircleDataModel({this.nickname, this.avatar, this.desc, this.photo, this.time});
+  CircleDataModel(
+      {this.nickname, this.avatar, this.desc, this.photo, this.time});
 }
 
 class FriendCirclePage extends StatelessWidget {
@@ -77,13 +78,17 @@ class CircleItemCell extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(this.dataModel.nickname, style: TextStyle(color: Colors.blue[400], fontSize: 18.0)),
+              Text(this.dataModel.nickname,
+                  style: TextStyle(color: Colors.blue[400], fontSize: 18.0)),
               SizedBox(height: 5.0),
-              Text(this.dataModel.desc, style: TextStyle(color: Colors.black87, fontSize: 16.0)),
+              Text(this.dataModel.desc,
+                  style: TextStyle(color: Colors.black87, fontSize: 16.0)),
               SizedBox(height: 5.0),
-              Image.asset(this.dataModel.photo, height: 200.0, width: 150.0, fit: BoxFit.fitHeight),
+              Image.asset(this.dataModel.photo,
+                  height: 200.0, width: 150.0, fit: BoxFit.fitHeight),
               SizedBox(height: 5.0),
-              Text(this.dataModel.time, style: TextStyle(color: Colors.grey, fontSize: 12.0)),
+              Text(this.dataModel.time,
+                  style: TextStyle(color: Colors.grey, fontSize: 12.0)),
             ],
           )),
         ],

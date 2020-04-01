@@ -26,8 +26,9 @@ class CategoryPage extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.white,
                       )),
-                  decoration:
-                      BoxDecoration(gradient: LinearGradient(colors: [Colors.red, Colors.green, Colors.blue])))),
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          colors: [Colors.red, Colors.green, Colors.blue])))),
           body: Center(
             child: Container(
               child: Text("当前计数: $currentCount"),

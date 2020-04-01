@@ -6,7 +6,8 @@ class DeleteListItemPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> dataList = List.generate(20, (index) => "List Item $index");
+    final List<String> dataList =
+        List.generate(20, (index) => "List Item $index");
     return Scaffold(
       appBar: createAppBar(context, "左滑删除"),
       body: ListView.builder(
@@ -24,7 +25,9 @@ class DeleteListItemPage extends StatelessWidget {
               background: Container(
                 padding: EdgeInsets.all(10.0),
                 color: Colors.red,
-                child: Text("删除", textAlign: TextAlign.right, style: TextStyle(color: Colors.white, fontSize: 20.0)),
+                child: Text("删除",
+                    textAlign: TextAlign.right,
+                    style: TextStyle(color: Colors.white, fontSize: 20.0)),
               ),
               child: ListTile(
                 leading: Icon(Icons.insert_emoticon),

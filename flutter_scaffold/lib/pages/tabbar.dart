@@ -13,19 +13,27 @@ class TabBarPage extends StatelessWidget {
   final List<BottomNavigationBarItem> bottomItems = [
     BottomNavigationBarItem(title: Text("首页"), icon: Icon(Icons.home)),
     BottomNavigationBarItem(title: Text("分类"), icon: Icon(Icons.category)),
-    BottomNavigationBarItem(title: Text("购物车"), icon: Icon(Icons.shopping_cart)),
+    BottomNavigationBarItem(
+        title: Text("购物车"), icon: Icon(Icons.shopping_cart)),
     BottomNavigationBarItem(title: Text("搜索"), icon: Icon(Icons.search)),
     BottomNavigationBarItem(title: Text("我的"), icon: Icon(Icons.person)),
   ];
 
-  final List<Widget> bodyWidgets = [HomePage(), CategoryPage(), CartPage(), SearchPage(), MePage()];
+  final List<Widget> bodyWidgets = [
+    HomePage(),
+    CategoryPage(),
+    CartPage(),
+    SearchPage(),
+    MePage()
+  ];
 
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context, width: 750, height: 1334);
     return Provide<CurrentIndexProvide>(
       builder: (context, child, val) {
-        int currentIndex = Provide.value<CurrentIndexProvide>(context).currentIndex;
+        int currentIndex =
+            Provide.value<CurrentIndexProvide>(context).currentIndex;
         return Scaffold(
           backgroundColor: Colors.red,
           bottomNavigationBar: BottomNavigationBar(

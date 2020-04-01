@@ -27,6 +27,7 @@ class _HomePageState extends State<HomePage> {
       HomeDataModel(name: "卡片效果", routeName: "/card", argsMap: {}),
       HomeDataModel(name: "转场动画效果", routeName: "/pagetransition", argsMap: {}),
       HomeDataModel(name: "左滑删除效果", routeName: "/deleteListItem", argsMap: {}),
+      HomeDataModel(name: "双击点赞效果", routeName: "/clicklike", argsMap: {}),
     ];
     return Provide<MyCounter>(
       builder: (context, child, val) {

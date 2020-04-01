@@ -11,6 +11,7 @@ import './frosted_glass.dart';
 import './card.dart';
 import './transitionAnimation.dart';
 import './deleteListItem.dart';
+import './clickLike.dart';
 
 final Map<String, Function> routes = {
   '/': (context, {arguments}) => TabBarPage(),
@@ -25,6 +26,7 @@ final Map<String, Function> routes = {
   '/card': (context, {arguments}) => CardPage(),
   '/pagetransition': (context, {arguments}) => PageTransitionAnimationPage(),
   '/deleteListItem': (context, {arguments}) => DeleteListItemPage(),
+  '/clicklike': (context, {arguments}) => ClickLikePage(),
 };
 
 //命名路由传参的固定写法

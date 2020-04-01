@@ -24,7 +24,8 @@ class PageTransitionAnimationPage extends StatelessWidget {
 
 Route _createRouterTween() {
   return PageRouteBuilder(
-      pageBuilder: (context, animation, secondAnimation) => ShowAnimationResultPage(),
+      pageBuilder: (context, animation, secondAnimation) =>
+          ShowAnimationResultPage(),
       transitionsBuilder: (context, animation, secondAnimation, child) {
         var begin = Offset(0.0, 1.0);
         var end = Offset.zero;
@@ -39,14 +40,16 @@ Route _createRouterTween() {
 
 Route _createRouterCurveTween() {
   return PageRouteBuilder(
-      pageBuilder: (context, animation, secondAnimation) => ShowAnimationResultPage(),
+      pageBuilder: (context, animation, secondAnimation) =>
+          ShowAnimationResultPage(),
       transitionsBuilder: (context, animation, secondAnimation, child) {
         var begin = Offset(0.0, 1.0);
         var end = Offset.zero;
         //淡入淡出 时快时慢
         var curve = Curves.easeInOut;
         // 联合两种Tween
-        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
         var offsetAnimation = animation.drive(tween);
         return SlideTransition(
@@ -58,7 +61,8 @@ Route _createRouterCurveTween() {
 
 Route _createRouterCurveAnimationTween() {
   return PageRouteBuilder(
-      pageBuilder: (context, animation, secondAnimation) => ShowAnimationResultPage(),
+      pageBuilder: (context, animation, secondAnimation) =>
+          ShowAnimationResultPage(),
       transitionsBuilder: (context, animation, secondAnimation, child) {
         var begin = Offset(0.0, 1.0);
         var end = Offset.zero;
