@@ -1,0 +1,22 @@
+PODS:
+  - Flutter (1.0.0)
+  - MyPlugin (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - MyPlugin (from `.symlinks/plugins/MyPlugin/ios`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  MyPlugin:
+    :path: ".symlinks/plugins/MyPlugin/ios"
+
+SPEC CHECKSUMS:
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  MyPlugin: 3addb4efcfc9a20ec35c7d35dadc3b214ae0e07b
+
+PODFILE CHECKSUM: f32fb4e7c14f8b3ca19a369d7be425dd9241af27
+
+COCOAPODS: 1.8.4
