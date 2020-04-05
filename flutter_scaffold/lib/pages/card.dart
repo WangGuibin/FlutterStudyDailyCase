@@ -11,6 +11,7 @@ class CardPage extends StatelessWidget {
       body: ListView(
         children: <Widget>[
           Card(
+            color: UIColor.lightBlueColor,
             elevation: 2.0,
             margin: EdgeInsets.all(10.0),
             child: ListTile(
@@ -21,6 +22,7 @@ class CardPage extends StatelessWidget {
             ),
           ),
           Card(
+            color: UIColor.orangeColor,
             elevation: 2.0,
             margin: EdgeInsets.all(10.0),
             child: ListTile(
@@ -31,6 +33,7 @@ class CardPage extends StatelessWidget {
             ),
           ),
           Card(
+            color: UIColor.yellowColor,
             elevation: 2.0,
             margin: EdgeInsets.all(10.0),
             child: ListTile(
@@ -41,6 +44,7 @@ class CardPage extends StatelessWidget {
             ),
           ),
           Card(
+            color: UIColor.cyanColor,
             elevation: 2.0,
             margin: EdgeInsets.all(10.0),
             child: ListTile(

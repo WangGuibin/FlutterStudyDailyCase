@@ -12,6 +12,7 @@ import './card.dart';
 import './transitionAnimation.dart';
 import './deleteListItem.dart';
 import './clickLike.dart';
+import './customFont.dart';
 
 final Map<String, Function> routes = {
   '/': (context, {arguments}) => TabBarPage(),
@@ -27,6 +28,7 @@ final Map<String, Function> routes = {
   '/pagetransition': (context, {arguments}) => PageTransitionAnimationPage(),
   '/deleteListItem': (context, {arguments}) => DeleteListItemPage(),
   '/clicklike': (context, {arguments}) => ClickLikePage(),
+  '/font': (context, {arguments}) => CustomFontPage(),
 };
 
 //命名路由传参的固定写法
@@ -36,8 +38,9 @@ var onGenerateRoute = (RouteSettings settings) {
   final Function pageContentBuilder = routes[name];
 
   if (pageContentBuilder != null) {
-    final Route route =
-        MaterialPageRoute(builder: (context) => pageContentBuilder(context, arguments: settings.arguments));
+    final Route route = MaterialPageRoute(
+        builder: (context) =>
+            pageContentBuilder(context, arguments: settings.arguments));
     return route;
   }
 };

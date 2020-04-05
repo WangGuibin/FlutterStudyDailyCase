@@ -21,13 +21,15 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     List<HomeDataModel> dataList = [
-      HomeDataModel(name: "自定义按钮组件和指示器demo展示", routeName: "/indicator", argsMap: {}),
+      HomeDataModel(
+          name: "自定义按钮组件和指示器demo展示", routeName: "/indicator", argsMap: {}),
       HomeDataModel(name: "类似盆友圈展示", routeName: "/circle", argsMap: {}),
       HomeDataModel(name: "毛玻璃效果", routeName: "/frosted_glass", argsMap: {}),
       HomeDataModel(name: "卡片效果", routeName: "/card", argsMap: {}),
       HomeDataModel(name: "转场动画效果", routeName: "/pagetransition", argsMap: {}),
       HomeDataModel(name: "左滑删除效果", routeName: "/deleteListItem", argsMap: {}),
       HomeDataModel(name: "双击点赞效果", routeName: "/clicklike", argsMap: {}),
+      HomeDataModel(name: "自定义字体", routeName: "/font", argsMap: {}),
     ];
     return Provide<MyCounter>(
       builder: (context, child, val) {
@@ -46,7 +48,8 @@ class _HomePageState extends State<HomePage> {
                   ListTile(
                     title: Text(name),
                     onTap: () {
-                      Navigator.of(context).pushNamed(routeName, arguments: args);
+                      Navigator.of(context)
+                          .pushNamed(routeName, arguments: args);
                     },
                   ),
                   Divider(),
