@@ -23,7 +23,7 @@
     [button addTarget:self
                action:@selector(handleButtonAction)
      forControlEvents:UIControlEventTouchUpInside];
-    [button setTitle:@"Press me" forState:UIControlStateNormal];
+    [button setTitle:@"点就完了" forState:UIControlStateNormal];
     [button setBackgroundColor:[UIColor blueColor]];
     button.frame = CGRectMake(80.0, 210.0, 160.0, 40.0);
     [self.view addSubview:button];

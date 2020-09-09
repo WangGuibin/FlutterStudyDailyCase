@@ -13,6 +13,9 @@ class BannerPage extends StatefulWidget {
   _BannerPageState createState() => _BannerPageState();
 }
 
+///TODO: 需要写一个自由度高 可扩展的 banner组件
+///FIXME: 哈哈哈哈哈哈 这个玩意儿
+//! 这是一个banner第三方库
 //https://github.com/best-flutter/flutter_swiper/blob/master/README-ZH.md#%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8
 class _BannerPageState extends State<BannerPage> {
   @override
@@ -32,7 +35,8 @@ class _BannerPageState extends State<BannerPage> {
                 autoplay: true, //自动轮播
                 duration: 3000, //滚动间隔 单位ms
                 itemBuilder: (context, index) {
-                  return Image.network(getExampleImageWithIndex(index), fit: BoxFit.cover);
+                  return Image.network(getExampleImageWithIndex(index),
+                      fit: BoxFit.cover);
                 },
                 itemCount: 5,
                 pagination: SwiperPagination(), //小圆点
@@ -59,7 +63,9 @@ class _BannerPageState extends State<BannerPage> {
                 itemCount: 5,
                 viewportFraction: 0.8,
                 scale: 0.9,
-                pagination: SwiperPagination(alignment: Alignment.topRight, builder: SwiperPagination.fraction), //下标展示
+                pagination: SwiperPagination(
+                    alignment: Alignment.topRight,
+                    builder: SwiperPagination.fraction), //下标展示
               ),
             ),
           ),

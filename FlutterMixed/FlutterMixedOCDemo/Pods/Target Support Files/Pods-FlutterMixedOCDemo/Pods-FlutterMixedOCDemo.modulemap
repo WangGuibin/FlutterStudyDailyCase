@@ -1,0 +1,6 @@
+framework module Pods_FlutterMixedOCDemo {
+  umbrella header "Pods-FlutterMixedOCDemo-umbrella.h"
+
+  export *
+  module * { export * }
+}

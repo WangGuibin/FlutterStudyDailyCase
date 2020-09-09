@@ -1,0 +1,4 @@
+${PODS_ROOT}/Target Support Files/Pods-FlutterMixedOCDemo/Pods-FlutterMixedOCDemo-frameworks.sh
+${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework
+${PODS_ROOT}/../../flutter_module/.ios/Flutter/engine/Flutter.framework
+${PODS_ROOT}/../../flutter_module/.ios/Flutter/App.framework

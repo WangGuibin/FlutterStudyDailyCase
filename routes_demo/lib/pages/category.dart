@@ -9,7 +9,7 @@ class CategoryPage extends StatelessWidget {
       "精选",
       "热门",
       "今日说法",
-      "今天,我想谈个恋爱",
+      "传奇故事",
       "本地",
       "电影",
       "电视剧",
@@ -30,7 +30,8 @@ class CategoryPage extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.black54,
           title: TabBar(
-            tabs: List.generate(items.length, (index) => Tab(text: items[index])),
+            tabs:
+                List.generate(items.length, (index) => Tab(text: items[index])),
             indicatorColor: Colors.lightBlue,
             labelColor: Colors.lightBlue,
             unselectedLabelColor: Colors.white,
@@ -46,7 +47,10 @@ class CategoryPage extends StatelessWidget {
         body: TabBarView(
             children: List.generate(items.length, (listIndex) {
           return ListView(
-            children: List.generate(30, (itemIndex) => ListTile(title: Text("${items[listIndex]}列表的item $itemIndex"))),
+            children: List.generate(
+                30,
+                (itemIndex) => ListTile(
+                    title: Text("${items[listIndex]}列表的item $itemIndex"))),
           );
         })),
       ),
